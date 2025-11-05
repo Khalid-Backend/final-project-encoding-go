@@ -26,12 +26,4 @@ func main() {
 	if err != nil {
 		fmt.Printf("ошибка при перекодировании данных из YAML в JSON: %s", err.Error())
 	}
-	err = utils.ConvertJsonToYaml("artist.json", "artist.yaml")
-	if err != nil {
-		return
-	}
-	err = utils.ConvertYamlToJson("artist.yaml", "artist.json")
-	if err != nil {
-		return
-	}
 }

@@ -15,11 +15,17 @@ func CreateJSONFile() {
 		fmt.Printf("json file creation fail: %s", err.Error())
 	}
 
-	defer jsonFile.Close()
+	defer func(jsonFile *os.File) {
+		err := jsonFile.Close()
+		if err != nil {
+			fmt.Printf("json file close fail: %s", err.Error())
+			return
+		}
+	}(jsonFile)
 
 	ports := []string{"5000:5000"}
-	volumes := []string{"/usercode/:/code"}
-	links := []string{"database:backenddb"}
+	volumes := []string{"/userCode/:/code"}
+	links := []string{"database:backendDb"}
 
 	web := models.Web{
 		Build:   ".",
@@ -30,12 +36,12 @@ func CreateJSONFile() {
 
 	environment := []string{
 		"MYSQL_ROOT_PASSWORD=root",
-		"MYSQL_USER=testuser",
+		"MYSQL_USER=testUser",
 		"MYSQL_PASSWORD=admin123",
 		"MYSQL_DATABASE=backend",
 	}
 
-	volumes = []string{"/usercode/db/init.sql:/docker-entrypoint-initdb.d/init.sql"}
+	volumes = []string{"/userCode/db/init.sql:/docker-entrypoint-initDb.d/init.sql"}
 
 	database := models.Database{
 		Image:       "mysql/mysql-server:5.7",
@@ -70,11 +76,17 @@ func CreateYAMLFile() {
 		fmt.Printf("yaml file creation fail: %s", err.Error())
 	}
 
-	defer yamlFile.Close()
+	defer func(yamlFile *os.File) {
+		err := yamlFile.Close()
+		if err != nil {
+			fmt.Printf("yaml file close fail: %s", err.Error())
+			return
+		}
+	}(yamlFile)
 
 	ports := []string{"5000:5000"}
-	volumes := []string{"/usercode/:/code"}
-	links := []string{"database:backenddb"}
+	volumes := []string{"/userCode/:/code"}
+	links := []string{"database:backendDb"}
 
 	web := models.Web{
 		Build:   ".",
@@ -85,12 +97,12 @@ func CreateYAMLFile() {
 
 	environment := []string{
 		"MYSQL_ROOT_PASSWORD=root",
-		"MYSQL_USER=testuser",
+		"MYSQL_USER=testUser",
 		"MYSQL_PASSWORD=admin123",
 		"MYSQL_DATABASE=backend",
 	}
 
-	volumes = []string{"/usercode/db/init.sql:/docker-entrypoint-initdb.d/init.sql"}
+	volumes = []string{"/userCode/db/init.sql:/docker-entrypoint-initDb.d/init.sql"}
 
 	database := models.Database{
 		Image:       "mysql/mysql-server:5.7",

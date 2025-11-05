@@ -2,9 +2,9 @@ package encoding
 
 import (
 	"github.com/hive-bootcamp/final-project-encoding-go/models"
-	"github.com/hive-bootcamp/final-project-encoding-go/utils"
 
 	"gopkg.in/yaml.v3"
+
 	"os"
 )
 
