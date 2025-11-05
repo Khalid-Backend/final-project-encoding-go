@@ -3,6 +3,9 @@ package encoding
 import (
 	"github.com/hive-bootcamp/final-project-encoding-go/models"
 	"github.com/hive-bootcamp/final-project-encoding-go/utils"
+
+	"gopkg.in/yaml.v3"
+	"os"
 )
 
 // JSONData тип для перекодирования из JSON в YAML
@@ -26,20 +29,26 @@ type MyEncoder interface {
 
 // Encoding перекодирует файл из JSON в YAML
 func (j *JSONData) Encoding() error {
-	err := utils.ConvertJsonToYaml("artist.json", "artist.yaml")
+	data, err := os.ReadFile(j.FileInput)
 	if err != nil {
 		return err
 	}
-
+	var value any
+	if err = yaml.Unmarshal(data, &value); err != nil {
+		return err
+	}
 	return nil
 }
 
 // Encoding перекодирует файл из YAML в JSON
 func (y *YAMLData) Encoding() error {
-	err := utils.ConvertYamlToJson("artist.yaml", "artist.json")
+	data, err := os.ReadFile(y.FileInput)
 	if err != nil {
 		return err
 	}
-
+	var value any
+	if err = yaml.Unmarshal(data, &value); err != nil {
+		return err
+	}
 	return nil
 }

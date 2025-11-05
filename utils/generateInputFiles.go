@@ -118,35 +118,3 @@ func CreateYAMLFile() {
 		fmt.Printf("writing data fail: %s", err.Error())
 	}
 }
-
-func ConvertJsonToYaml(jsonPath, yamlPath string) error {
-	data, err := os.ReadFile(jsonPath)
-	if err != nil {
-		return err
-	}
-	var value any
-	if err := yaml.Unmarshal(data, &value); err != nil {
-		return fmt.Errorf("unmarshal fail: %s", err.Error())
-	}
-	yamlData, err := yaml.Marshal(value)
-	if err != nil {
-		return err
-	}
-	return os.WriteFile(yamlPath, yamlData, 0644)
-}
-
-func ConvertYamlToJson(yamlPath, jsonPath string) error {
-	data, err := os.ReadFile(yamlPath)
-	if err != nil {
-		return err
-	}
-	var value any
-	if err := yaml.Unmarshal(data, &value); err != nil {
-		return fmt.Errorf("unmarshal fail: %s", err.Error())
-	}
-	jsonData, err := yaml.Marshal(value)
-	if err != nil {
-		return err
-	}
-	return os.WriteFile(jsonPath, jsonData, 0644)
-}
