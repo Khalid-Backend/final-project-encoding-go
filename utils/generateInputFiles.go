@@ -144,6 +144,9 @@ func ConvertYamlToJson(yamlPath, jsonPath string) error {
 	if err := yaml.Unmarshal(data, &value); err != nil {
 		return fmt.Errorf("unmarshal fail: %s", err.Error())
 	}
-
-	return os.WriteFile(jsonPath, []byte(os.ExpandEnv(value.(string))), 0644)
+	jsonData, err := yaml.Marshal(value)
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(jsonPath, jsonData, 0644)
 }
