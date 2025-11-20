@@ -1,6 +1,8 @@
 package encoding
 
 import (
+	"encoding/json"
+
 	"github.com/hive-bootcamp/final-project-encoding-go/models"
 
 	"gopkg.in/yaml.v3"
@@ -33,11 +35,14 @@ func (j *JSONData) Encoding() error {
 	if err != nil {
 		return err
 	}
-	var value any
-	if err = yaml.Unmarshal(data, &value); err != nil {
+	if err = json.Unmarshal(data, &j.FileOutput); err != nil {
 		return err
 	}
-	return nil
+	body, err := yaml.Marshal(j.FileOutput)
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(j.FileInput, body, 0644)
 }
 
 // Encoding перекодирует файл из YAML в JSON
@@ -46,9 +51,12 @@ func (y *YAMLData) Encoding() error {
 	if err != nil {
 		return err
 	}
-	var value any
-	if err = yaml.Unmarshal(data, &value); err != nil {
+	if err = yaml.Unmarshal(data, &y.FileOutput); err != nil {
 		return err
 	}
-	return nil
+	body, err := json.Marshal(y.FileOutput)
+	if err != nil {
+		return nil
+	}
+	return os.WriteFile(y.FileInput, body, 0644)
 }
